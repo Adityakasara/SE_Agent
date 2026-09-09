@@ -8,28 +8,28 @@ An autonomous, production-grade agentic AI software engineering system built to 
 
 ```mermaid
 flowchart TD
-    User([User Task / Bug Report]) --> Supervisor[Supervisor Agent<br/>(LangGraph Dynamic Routing)]
+    User["User Task / Bug Report"] --> Supervisor["Supervisor Agent<br/>(LangGraph Dynamic Routing)"]
     
     subgraph Discovery & Planning
-        Supervisor --> RepoAgent[Repository Understanding Agent]
-        RepoAgent --> CodeSearch[Code Search Agent<br/>AST + Semantic RAG]
-        CodeSearch --> BugAnalysis[Bug Analysis Agent]
-        BugAnalysis --> SolutionAgent[Solution Agent<br/>RAG Guidelines]
+        Supervisor --> RepoAgent["Repository Understanding Agent"]
+        RepoAgent --> CodeSearch["Code Search Agent<br/>AST + Semantic RAG"]
+        CodeSearch --> BugAnalysis["Bug Analysis Agent"]
+        BugAnalysis --> SolutionAgent["Solution Agent<br/>RAG Guidelines"]
     end
 
     subgraph Sandbox Execution & Verification
-        SolutionAgent --> SafetyPre[Safety Agent<br/>Pre-execution Check]
-        SafetyPre --> CodingAgent[Coding Agent<br/>Isolated Sandbox / Git Branch]
-        CodingAgent --> TestAgent[Test Agent<br/>Pytest / Test Gen]
-        TestAgent --> Verification[Verification Agent]
-        Verification -- "Failure / Regression" --> Supervisor
+        SolutionAgent --> SafetyPre["Safety Agent<br/>Pre-execution Check"]
+        SafetyPre --> CodingAgent["Coding Agent<br/>Isolated Sandbox / Git Branch"]
+        CodingAgent --> TestAgent["Test Agent<br/>Pytest / Test Gen"]
+        TestAgent --> Verification["Verification Agent"]
+        Verification -->|"Failure / Regression"| Supervisor
     end
 
     subgraph Human in the Loop & Finalization
-        Verification -- "Success" --> SafetyFinal[Safety Agent]
-        SafetyFinal --> HumanApproval{Human Approval<br/>Diff / Confidence / Tests}
-        HumanApproval -- "Approved" --> PR[Git Patch / Pull Request]
-        HumanApproval -- "Changes Requested" --> Supervisor
+        Verification -->|"Success"| SafetyFinal["Safety Agent"]
+        SafetyFinal --> HumanApproval{"Human Approval<br/>Diff / Confidence / Tests"}
+        HumanApproval -->|"Approved"| PR["Git Patch / Pull Request"]
+        HumanApproval -->|"Changes Requested"| Supervisor
     end
 ```
 
